@@ -1,0 +1,14 @@
+{
+  "database": {
+    "username": "root",
+    "password": "ttlab@1234",
+    "database": "vh_crm",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "api": {
+    "api_server": "http://localhost:3000",
+    "storage_server": "http://localhost:3000/",
+    "storage_folder": ""
+  }
+}
