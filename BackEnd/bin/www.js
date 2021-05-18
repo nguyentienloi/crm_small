@@ -32,6 +32,9 @@ server.timeout = 100000;
 server.on('error', onError);
 server.on('listening', onListening);
 
+export const io = require('socket.io').listen(server);
+require('../src/middleware/socket/socket');
+const { syncGoogleJob } =  require('../src/middleware/contact/syncContact');
 /**
  * Normalize a port into a number, string, or false.
  */
