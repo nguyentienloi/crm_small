@@ -9,7 +9,7 @@
     <li>
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="material-icons">dashboard</i>
-        <p>Dashboard</p></a
+        <p>List contact</p></a
       >
     </li>
     <li>

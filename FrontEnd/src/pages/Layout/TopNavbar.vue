@@ -2,7 +2,7 @@
   <md-toolbar md-elevation="0" class="md-transparent">
     <div class="md-toolbar-row">
       <div class="md-toolbar-section-start">
-        <h3 class="md-title">{{ $route.name }}</h3>
+        <!-- <h3 class="md-title">{{ $route.name }}</h3> -->
       </div>
       <div class="md-toolbar-section-end">
         <md-button
@@ -17,13 +17,13 @@
 
         <div class="md-collapse">
           <div class="md-autocomplete">
-            <md-autocomplete
+            <!-- <md-autocomplete
               class="search"
               v-model="selectedEmployee"
               :md-options="employees"
             >
               <label>Search...</label>
-            </md-autocomplete>
+            </md-autocomplete> -->
           </div>
           <md-list>
             <md-list-item href="#/">
