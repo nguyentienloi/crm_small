@@ -77,7 +77,7 @@
           <h2 class="modal-title">Thông tin khách hàng</h2>
         </div>
         <div class="modal-body">
-            <form class=""  method="Post" enctype="multipart/form-data">
+            <form>
                 <label for="email"><b>Họ tên:</b></label>
                 <input type="text" name="contactName" v-model="contactDetail.contactName" required style="background: white; border: 1px solid black; border-radius: 7px;">
                 <label for="email"><b>Số điện thoại:</b></label>
@@ -257,8 +257,8 @@ export default {
             var note = $("input[name='note']").val();
             var status = $("#exampleFormControlSelect1").val();
             $.ajax({
-                url: 'http://localhost:3000/api/contact/update/' + id,
-                methods: 'get',
+                url: 'http://localhost:3000/api/contact/' + id,
+                methods: 'patch',
                 dataType: 'json',
                 data: {
                     contactName: contactName,

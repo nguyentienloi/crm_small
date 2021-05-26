@@ -26,35 +26,89 @@
                     </div>
                 </div>
             </form>
-            <div class="row">
+            <div class="row" v-if="Object.keys(data).length > 0">
                 <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
                     <h2>
                         Tổng:
                     </h2>
-                    <p style="font-size: 18px;"><b>{{data[0]['moi']}}</b> <span>contact</span></p>
+                    <p style="font-size: 18px;"><b>{{data['moi']}}</b> <span>contact</span></p>
                 </div>
                 <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
                     <h2>
                         Đã gọi:
                     </h2>
-                    <p style="font-size: 18px;"><b>{{data[1]['da_goi']}}</b> <span>contact</span></p>
+                    <p style="font-size: 18px;"><b>{{data['da_goi']}}</b> <span>contact</span></p>
                 </div>
                 <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
                     <h2>
                         Chờ gọi lại:
                     </h2>
-                    <p style="font-size: 18px;"><b>{{data[3]['cho_goi_lai']}}</b> <span>contact</span></p>
+                    <p style="font-size: 18px;"><b>{{data['cho_goi_lai']}}</b> <span>contact</span></p>
                 </div>
                 <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
                     <h2>
                         Đã huỷ:
                     </h2>
-                    <p style="font-size: 18px;"><b>{{data[2]['da_huy']}}</b> <span>contact</span></p>
+                    <p style="font-size: 18px;"><b>{{data['da_huy']}}</b> <span>contact</span></p>
                 </div>
             </div>
             <div class="row">
                <pie-chart :data="chartData" :options="chartOptions" style="width: 500px;height: 500px;margin: 30px auto;"></pie-chart>
                <h3 style="text-align: center;"><b>Biểu đồ báo cáo contact tổng các kho</b></h3>
+            </div>
+            <div class="row">
+                <h2 style="margin-left: 16px;">Kho A</h2>
+                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
+                    <h2>
+                        Tổng:
+                    </h2>
+                    <p style="font-size: 18px;"><b>{{data['moi']}}</b> <span>contact</span></p>
+                </div>
+                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
+                    <h2>
+                        Đã gọi:
+                    </h2>
+                    <p style="font-size: 18px;"><b>{{data['da_goi']}}</b> <span>contact</span></p>
+                </div>
+                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
+                    <h2>
+                        Chờ gọi lại:
+                    </h2>
+                    <p style="font-size: 18px;"><b>{{data['cho_goi_lai']}}</b> <span>contact</span></p>
+                </div>
+                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
+                    <h2>
+                        Đã huỷ:
+                    </h2>
+                    <p style="font-size: 18px;"><b>{{data['da_huy']}}</b> <span>contact</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <h2 style="margin-left: 16px;">Kho B</h2>
+                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
+                    <h2>
+                        Tổng:
+                    </h2>
+                    <p style="font-size: 18px;"><b>{{data['moi']}}</b> <span>contact</span></p>
+                </div>
+                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
+                    <h2>
+                        Đã gọi:
+                    </h2>
+                    <p style="font-size: 18px;"><b>{{data['da_goi']}}</b> <span>contact</span></p>
+                </div>
+                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
+                    <h2>
+                        Chờ gọi lại:
+                    </h2>
+                    <p style="font-size: 18px;"><b>{{data['cho_goi_lai']}}</b> <span>contact</span></p>
+                </div>
+                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
+                    <h2>
+                        Đã huỷ:
+                    </h2>
+                    <p style="font-size: 18px;"><b>{{data['da_huy']}}</b> <span>contact</span></p>
+                </div>
             </div>
           </md-card-content>
         </md-card>
@@ -81,21 +135,21 @@ export default {
             startDate: '',
             endDate: '',
             data:[
-                {
-                    "moi": 172
-                },
-                {
-                    "da_goi": 125
-                },
-                {
-                    "da_huy": 35
-                },
-                {
-                    "cho_goi_lai": 12
-                },
-                {
-                    "da_tao_don": 235
-                },
+                // {
+                //     "moi": 172
+                // },
+                // {
+                //     "da_goi": 125
+                // },
+                // {
+                //     "da_huy": 35
+                // },
+                // {
+                //     "cho_goi_lai": 12
+                // },
+                // {
+                //     "da_tao_don": 235
+                // }
             ],
             chartOptions: {
                 hoverBorderWidth: 20
@@ -128,7 +182,10 @@ export default {
                 data: {},
                 success: function (res) {
                     me.data = res;
-                    // me.chartData.datasets[0].data = [125, 35, 12];
+                    // me.chartData.datasets[0].data = [];
+                    me.chartData.datasets[0].data.push(res['da_goi']);
+                    me.chartData.datasets[0].data.push(res['da_huy']);
+                    me.chartData.datasets[0].data.push(res['cho_goi_lai']);
                 },
                 error: function(err) {
                     console.log(err)
@@ -138,16 +195,14 @@ export default {
     },
     created: function(){
         var me = this;
-        me.chartData.datasets[0].data = [125, 35, 12];
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0');
         var yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd;
         me.dateNow = today;
-        setTimeout(function(){
-            me.getSalesContact(); 
-        }, 2000);
+        me.getSalesContact();
+        me.chartData.datasets[0].data = [135,12,4];
     }
 };
 </script>
