@@ -14,12 +14,12 @@
       <!-- <sidebar-link to="/order/list">
         <md-icon>content_paste</md-icon>
         <p>Danh sách order</p>
-      </sidebar-link>
+      </sidebar-link> -->
       <sidebar-link to="/salesReport">
         <md-icon>library_books</md-icon>
-        <p>Báo cáo doanh số</p>
+        <p>Báo cáo contact</p>
       </sidebar-link>
-      <sidebar-link to="/user">
+      <!-- <sidebar-link to="/user">
         <md-icon>person</md-icon>
         <p>Tài khoản</p>
       </sidebar-link> -->

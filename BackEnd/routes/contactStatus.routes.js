@@ -6,5 +6,7 @@ module.exports = app => {
     // Retrieve all contactStatus
     router.get("/", contactStatus.findAll);
     router.get("/count", contactStatus.findAllCount);
+    router.get("/countConcatByStatus", contactStatus.countConcatByStatus);
+
     app.use('/api/contactStatus', router);
   };

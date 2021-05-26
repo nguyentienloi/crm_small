@@ -3,11 +3,11 @@ import DashboardLayout from "@/pages/Layout/DashboardLayout.vue";
 import listContact from "@/pages/listContact.vue";
 import UserProfile from "@/pages/UserProfile.vue";
 import TableList from "@/pages/TableList.vue";
-import Typography from "@/pages/Typography.vue";
-import Icons from "@/pages/Icons.vue";
-import Maps from "@/pages/Maps.vue";
-import Notifications from "@/pages/Notifications.vue";
-import UpgradeToPRO from "@/pages/UpgradeToPRO.vue";
+import SalesContact from "@/pages/SalesContact.vue";
+// import Icons from "@/pages/Icons.vue";
+// import Maps from "@/pages/Maps.vue";
+// import Notifications from "@/pages/Notifications.vue";
+// import UpgradeToPRO from "@/pages/UpgradeToPRO.vue";
 import login from "@/pages/Login.vue";
 import createOrder from "@/pages/createOrder.vue";
 
@@ -40,7 +40,7 @@ const routes = [
       {
         path: "salesReport",
         name: "salesReport",
-        component: Typography
+        component: SalesContact
       },
       // {
       //   path: "icons",

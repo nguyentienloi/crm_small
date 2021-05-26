@@ -31,3 +31,56 @@ exports.findAllCount = async (req, res) => {
     data['da_tao_don'] = contact5;
     res.send(data);
 };
+
+exports.countConcatByStatus = async (req, res) => {
+    const startDate = req.query.startDate;
+    const endDate = req.query.endDate;
+    const data = {};
+    const contact1 = await contact.count({
+        where: {
+            statusId: 1, 
+            createdAt: {
+                [Op.between] : [startDate, endDate]
+            }
+        } 
+    });
+    data['moi'] = contact1;
+    const contact2 = await contact.count({
+        where: {
+            statusId: 2, 
+            createdAt: {
+                [Op.between] : [startDate, endDate]
+            }
+        } 
+    });
+    data['da_goi'] = contact2;
+    const contact3 = await contact.count({
+        where: {
+            statusId: 3, 
+            createdAt: {
+                [Op.between] : [startDate, endDate]
+            }
+        } 
+    });
+    data['da_huy'] = contact3;
+    const contact4 = await contact.count({
+        where: {
+            statusId: 4, 
+            createdAt: {
+                [Op.between] : [startDate, endDate]
+            }
+        } 
+    });
+    data['cho_goi_lai'] = contact4;
+    const contact5 = await contact.count({
+        where: {
+            statusId: 5, 
+            createdAt: {
+                [Op.between] : [startDate, endDate]
+            }
+        } 
+    });
+    data['da_tao_don'] = contact5;
+
+    res.send(data);
+};
