@@ -43,7 +43,7 @@
                 <td style="width:25%;">{{ contact.contactName }}</td>
                 <td style="width:12%;">{{ contact.contactPhone }}</td>
                 <td style="width:38%;">{{ contact.address }}</td>
-                <td><a data-toggle="modal" data-target="#myModal" v-on:click="getContactById(contact.id)">Chi tiết</a></td>
+                <td><a data-toggle="modal" v-on:click="getContactById(contact.id)">Chi tiết</a></td>
             </tr>
             <p v-if="listContact.length == 0" class="text-center">Không tìm thấy dữ liệu.</p>
             </tbody>
@@ -74,23 +74,27 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h3 class="modal-title">Thông tin khách hàng</h3>
+          <h2 class="modal-title">Thông tin khách hàng</h2>
         </div>
         <div class="modal-body">
-            <p><b>MS{{contactDetail.id}} - {{contactDetail.contactPhone}}</b></p>
-            <p><b>Họ tên:</b> {{contactDetail.contactName}}</p>
-            <p><b>Số điện thoại:</b> {{contactDetail.contactPhone}}</p>
-            <p><b>Địa chỉ:</b> {{contactDetail.address}}</p>
-            <p><b>Link mua hàng:</b> <a v-bind:href="contactDetail.linkUrl" target="_blank">{{contactDetail.linkUrl}}</a></p>
-            <p><b>Số lượng đặt:</b> {{contactDetail.numberProduct}}</p>
-            <p><b>Ghi chú:</b> {{contactDetail.note}}</p>
-            <p><b>Trạng thái:</b></p>
-            <div class="form-group">
-                <select class="form-control" id="exampleFormControlSelect1">
+            <form class=""  method="Post" enctype="multipart/form-data">
+                <label for="email"><b>Họ tên:</b></label>
+                <input type="text" name="contactName" v-model="contactDetail.contactName" required style="background: white; border: 1px solid black; border-radius: 7px;">
+                <label for="email"><b>Số điện thoại:</b></label>
+                <input type="text" name="contactPhone" v-model="contactDetail.contactPhone" required style="background: white; border: 1px solid black; border-radius: 7px;">
+                <label for="email"><b>Địa chỉ liên hệ:</b></label>
+                <input type="text" name="address" required v-model="contactDetail.address" style="background: white; border: 1px solid black; border-radius: 7px;">
+                <label for="email"><b>Link mua hàng:</b> <a v-bind:href="contactDetail.linkUrl" target="_blank">{{contactDetail.linkUrl}}</a></label>
+                <label for="email"><b>Số lượng mua:</b></label>
+                <input type="number" min="0" name="numberProduct" required v-model="contactDetail.numberProduct" style="background: white; border: 1px solid black; border-radius: 7px;">
+                <label for="email"><b>Ghi chú:</b></label>
+                <input type="text" name="note" required v-model="contactDetail.note" style="background: white; border: 1px solid black; border-radius: 7px;">
+                <label for="email"><b>Trạng thái:</b></label>
+                <select class="form-control" id="exampleFormControlSelect1" v-model="contactDetail.statusId">
                     <option v-for="(status, index) in listContactStatus" :key="index" v-bind:value="status.id" >{{status.name}}</option>
                 </select>
-            </div>
-            <button class="btn btn-danger">Lưu</button>&nbsp;
+            </form>
+            <button class="btn btn-danger" v-on:click="saveContact(contactDetail.id)">Lưu</button>&nbsp;
             <button style="float:right" class="btn btn-success">Tạo đơn hàng</button>
         </div>
         <div class="modal-footer">
@@ -227,6 +231,9 @@ export default {
             this.getListContact();
         },
         getContactById: function(id) {
+            $('#myModal').modal({
+                show: 'true'
+            }); 
             var me = this;
             $.ajax({
                 url: 'http://localhost:3000/api/contact/' + id,
@@ -235,6 +242,37 @@ export default {
                 data: {},
                 success: function (res) {
                     me.contactDetail = res;
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
+        },
+        saveContact:function(id){
+            var me = this;
+            var contactName = $("input[name='contactName']").val();
+            var contactPhone = $("input[name='contactPhone']").val();
+            var address = $("input[name='address']").val();
+            var numberProduct = $("input[name='numberProduct']").val();
+            var note = $("input[name='note']").val();
+            var status = $("#exampleFormControlSelect1").val();
+            $.ajax({
+                url: 'http://localhost:3000/api/contact/update/' + id,
+                methods: 'get',
+                dataType: 'json',
+                data: {
+                    contactName: contactName,
+                    contactPhone: contactPhone,
+                    address: address,
+                    numberProduct,
+                    note: note,
+                    status: status
+                },
+                success: function (res) {
+                     $('#myModal').modal({
+                        show: 'false'
+                    });
+                    me.getListContact();
                 },
                 error: function(err) {
                     console.log(err)

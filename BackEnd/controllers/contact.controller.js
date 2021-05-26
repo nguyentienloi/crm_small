@@ -47,4 +47,30 @@ exports.findOne = async (req, res) => {
   } else {
     res.send([]);
   }
+};
+
+exports.update = async (req, res) => {
+  const id = req.params.id;
+  const contactName = req.body.contactName;
+  const contactPhone = req.body.contactPhone;
+  const address = req.body.address;
+  const numberProduct = req.body.numberProduct;
+  const note = req.body.note;
+  const status = req.body.statusId;
+  
+  const updateContact = await Contact.update({
+    contactName: contactName,
+    contactPhone: contactPhone,
+    address: address,
+    numberProduct: numberProduct,
+    note: note,
+    statusId: status
+  }, {
+    where: { id: id }
+  });
+  if (updateContact) {
+    res.send('Cập nhật thành công.');
+  } else {
+    res.send('Cập nhật thất bại.');
+  }
 }
