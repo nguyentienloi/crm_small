@@ -26,31 +26,23 @@
             </md-autocomplete> -->
           </div>
           <md-list>
-            <md-list-item href="#/">
-              <i class="material-icons">dashboard</i>
-              <p class="hidden-lg hidden-md">Dashboard</p>
-            </md-list-item>
-
             <!-- <md-list-item href="#/notifications" class="dropdown">
               <drop-down>
                 <a slot="title" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="material-icons">notifications</i>
-                  <span class="notification">5</span>
+                  <span class="notification">{{ countNoti }}</span>
                   <p class="hidden-lg hidden-md">Notifications</p>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                   <li><a href="#">Mike John responded to your email</a></li>
                   <li><a href="#">You have 5 new tasks</a></li>
-                  <li><a href="#">You're now friend with Andrew</a></li>
-                  <li><a href="#">Another Notification</a></li>
-                  <li><a href="#">Another One</a></li>
                 </ul>
               </drop-down>
             </md-list-item> -->
 
             <li class="md-list-item">
               <a
-                href="#/notifications"
+                href=""
                 class="md-list-item-router md-list-item-container md-button-clean dropdown"
               >
                 <div class="md-list-item-content">
@@ -61,25 +53,18 @@
                       data-toggle="dropdown"
                     >
                       <md-icon>notifications</md-icon>
-                      <span class="notification">5</span>
+                      <span class="notification">{{ countNoti }}</span>
                       <p class="hidden-lg hidden-md">Notifications</p>
                     </md-button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                      <li><a href="#">Mike John responded to your email</a></li>
-                      <li><a href="#">You have 5 new tasks</a></li>
-                      <li><a href="#">You're now friend with Andrew</a></li>
-                      <li><a href="#">Another Notification</a></li>
-                      <li><a href="#">Another One</a></li>
+                    <ul class="dropdown-menu dropdown-menu-right" style="max-height: 300px; overflow: scroll;">
+                        <li v-for="(item, index) in allNoti" :key="index">
+                            <a @click="readNoti(item.id)">{{ item.content }}</a>
+                        </li>
                     </ul>
                   </drop-down>
                 </div>
               </a>
             </li>
-
-            <md-list-item href="#/user">
-              <i class="material-icons">person</i>
-              <p class="hidden-lg hidden-md">Profile</p>
-            </md-list-item>
           </md-list>
         </div>
       </div>
@@ -89,7 +74,7 @@
 
 <script>
 export default {
-  data() {
+  data: function() {
     return {
       selectedEmployee: null,
       employees: [
@@ -101,15 +86,69 @@ export default {
         "Kelly Kapoor",
         "Ryan Howard",
         "Kevin Malone"
-      ]
+      ],
+      countNoti: '',
+      allNoti: []
     };
   },
   methods: {
     toggleSidebar() {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
+    },
+    getCountNoti: function() {
+        var me = this;
+        $.ajax({
+            url: 'http://localhost:3000/api/notification/countNoti',
+            methods: 'GET',
+            dataType: 'json',
+            data: {},
+            success: function (res) {
+                me.countNoti = res.count;
+            },
+            error: function(err) {
+                console.log(err)
+            }
+        })
+    },
+    getAllNoti: function() {
+        var me = this;
+        $.ajax({
+            url: 'http://localhost:3000/api/notification',
+            methods: 'GET',
+            dataType: 'json',
+            data: {},
+            success: function (res) {
+                me.allNoti = res;
+            },
+            error: function(err) {
+                console.log(err)
+            }
+        })
+    },
+    readNoti: function(id) {
+        var me = this;
+        $.ajax({
+            url: 'http://localhost:3000/api/notification/ + id',
+            methods: 'get',
+            dataType: 'json',
+            data: {},
+            success: function (res) {
+            },
+            error: function(err) {
+                console.log(err)
+            }
+        })
     }
+  },
+  created: function() {
+    this.getCountNoti();
+    this.getAllNoti();
   }
 };
 </script>
 
-<style lang="css"></style>
+<style>
+.gray {
+    background-color: gray;
+}
+</style>

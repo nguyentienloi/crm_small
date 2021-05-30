@@ -17,7 +17,82 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-messaging.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAfR_QxDXI-AuJxYL-7tUAbFShy40XBj6k",
+            authDomain: "sms-crm-small.firebaseapp.com",
+            projectId: "sms-crm-small",
+            storageBucket: "sms-crm-small.appspot.com",
+            messagingSenderId: "348755502535",
+            appId: "1:348755502535:web:3844f2418802dd1663a5e2",
+            measurementId: "G-D9TVZ4YBX5"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const messaging=firebase.messaging();
+    
+        function IntitalizeFireBaseMessaging() {
+            messaging
+                .requestPermission()
+                .then(function () {
+                    console.log("Notification Permission");
+                    return messaging.getToken();
+                })
+                .then(function (token) {
+                    console.log("Token new: "+token);
 
+                    fetch('http://localhost:3000/api/tokenFirebase', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({token: token}),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                    // console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                    // console.error('Error:', error);
+                    });
+
+
+                })
+                .catch(function (reason) {
+                    console.log(reason);
+                });
+        }
+    
+        messaging.onMessage(function (payload) {
+            console.log(payload);
+            const notificationOption={
+                body:payload.notification.body,
+                icon:payload.notification.icon
+            };
+    
+            if(Notification.permission==="granted"){
+                var notification=new Notification(payload.notification.title,notificationOption);
+    
+                notification.onclick=function (ev) {
+                    ev.preventDefault();
+                    window.open(payload.notification.click_action,'_blank');
+                    notification.close();
+                }
+            }
+    
+        });
+        messaging.onTokenRefresh(function () {
+            messaging.getToken()
+                .then(function (newtoken) {
+                    console.log("New Token : "+ newtoken);
+                })
+                .catch(function (reason) {
+                    console.log(reason);
+                })
+        })
+        IntitalizeFireBaseMessaging();
+    </script>
 </head>
   <body>
     <div id="app"></div>

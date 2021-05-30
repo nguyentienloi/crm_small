@@ -19,10 +19,10 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.Contact = require("./contact.model.js")(sequelize, Sequelize);
 db.contactStatus = require("./contactStatus.model.js")(sequelize, Sequelize);
-
+db.Notification = require("./notification.model")(sequelize, Sequelize);
+db.TokenFirebase = require("./tokenFirebase.model")(sequelize, Sequelize);
 
 //Relations
 // db.contactStatus.hasMany(db.Contact, {

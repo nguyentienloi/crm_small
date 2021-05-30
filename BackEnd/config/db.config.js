@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "",
-    DB: "crmsmall",
+    HOST: "sql6.freemysqlhosting.net",
+    USER: "sql6415745",
+    PASSWORD: "ACt8rlw9Mv",
+    DB: "sql6415745",
     dialect: "mysql",
     pool: {
       max: 5,

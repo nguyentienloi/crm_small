@@ -20,7 +20,9 @@ exports.findAll = async (req, res) => {
     if(contactStatus) {
       condition['statusId'] = contactStatus;
     }
-    const listContact = await Contact.findAll({ where: condition, offset: startContact, limit: limit});
+    const listContact = await Contact.findAll({ where: condition, order: [
+      ['id', 'DESC']
+    ], offset: startContact, limit: limit});
     if(listContact && listContact.length > 0){
       for(var i = 0 ; i < listContact.length; i++){
         if (listContact[i].statusId == 1){
@@ -51,12 +53,12 @@ exports.findOne = async (req, res) => {
 
 exports.update = async (req, res) => {
   const id = req.params.id;
-  const contactName = req.body.contactName;
-  const contactPhone = req.body.contactPhone;
-  const address = req.body.address;
-  const numberProduct = req.body.numberProduct;
-  const note = req.body.note;
-  const status = req.body.statusId;
+  const contactName = req.query.contactName;
+  const contactPhone = req.query.contactPhone;
+  const address = req.query.address;
+  const numberProduct = req.query.numberProduct;
+  const note = req.query.note;
+  const status = req.query.status;
   
   const updateContact = await Contact.update({
     contactName: contactName,
@@ -69,8 +71,14 @@ exports.update = async (req, res) => {
     where: { id: id }
   });
   if (updateContact) {
-    res.send('Cập nhật thành công.');
+    res.send({
+      success: "true",
+      mesage: 'Cập nhật thành công.'
+    });
   } else {
-    res.send('Cập nhật thất bại.');
+    res.send({
+      success: "false",
+      mesage: 'Cập nhật thất bại.'
+    });
   }
 }

@@ -37,13 +37,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(contact, index) in listContact" :key="index">
+            <tr v-for="(contact, index) in listContact" :key="index" v-on:click="getContactById(contact.id)">
                 <td v-bind:style="{backgroundColor:contact.colorStatus}"></td>
                 <td style="width:12%;">MS{{ contact.id }}</td>
                 <td style="width:25%;">{{ contact.contactName }}</td>
                 <td style="width:12%;">{{ contact.contactPhone }}</td>
-                <td style="width:38%;">{{ contact.address }}</td>
-                <td><a data-toggle="modal" v-on:click="getContactById(contact.id)">Chi tiết</a></td>
+                <td style="width:45%;">{{ contact.address }}</td>
+                <td></td>
             </tr>
             <p v-if="listContact.length == 0" class="text-center">Không tìm thấy dữ liệu.</p>
             </tbody>
@@ -88,14 +88,13 @@
                 <label for="email"><b>Số lượng mua:</b></label>
                 <input type="number" min="0" name="numberProduct" required v-model="contactDetail.numberProduct" style="background: white; border: 1px solid black; border-radius: 7px;">
                 <label for="email"><b>Ghi chú:</b></label>
-                <input type="text" name="note" required v-model="contactDetail.note" style="background: white; border: 1px solid black; border-radius: 7px;">
+                <input type="text" name="note" v-model="contactDetail.note" style="background: white; border: 1px solid black; border-radius: 7px;">
                 <label for="email"><b>Trạng thái:</b></label>
                 <select class="form-control" id="exampleFormControlSelect1" v-model="contactDetail.statusId">
                     <option v-for="(status, index) in listContactStatus" :key="index" v-bind:value="status.id" >{{status.name}}</option>
                 </select>
+                <button class="btn btn-success" name="sendSubmit" @click="saveContact(contactDetail.id)" style="margin-top:20px;">Lưu</button>&nbsp;
             </form>
-            <button class="btn btn-danger" v-on:click="saveContact(contactDetail.id)">Lưu</button>&nbsp;
-            <button style="float:right" class="btn btn-success">Tạo đơn hàng</button>
         </div>
         <div class="modal-footer">
         </div>
@@ -135,10 +134,10 @@ export default {
             contactStatus:'',
             totalContact: '',
             page: 0,
-            limit: 10,
+            limit: 15,
             totalPage: '',
             pages: [],
-            contactDetail: []
+            contactDetail: [],
         };
     },
     props: [],
@@ -163,7 +162,7 @@ export default {
                             res[3]['count'] = r['cho_goi_lai'];
                             res[4]['count'] = r['da_tao_don'];
                             me.totalContact = r['moi'] + r['da_goi'] + r['da_huy'] + r['cho_goi_lai'] + r['da_tao_don'];
-                            const totalPage = Math.round(parseInt(me.totalContact) / parseInt(me.limit));
+                            const totalPage = Math.ceil(parseInt(me.totalContact) / parseInt(me.limit));
                             me.totalPage = totalPage;
                             for(var i = 1; i <= totalPage; i ++) {
                                 me.pages.push(i);
@@ -224,9 +223,19 @@ export default {
         getContactByPagination:function(type) {
             var me = this;
             if (type == 'pre') {
-                me.page = page - 1;
+                const pageP = me.page - 1;
+                if (pageP < 0) {
+                    me.page = 0;
+                } else {
+                    me.page = me.page - 1;
+                }
             } else if (type == 'nex') {
-                me.page = page + 1;
+                const pageN = me.page + 1;
+                if (pageN > me.totalPage) {
+                    me.page = me.totalPage;
+                } else {
+                    me.page = pageN;
+                }
             }
             this.getListContact();
         },
@@ -249,35 +258,32 @@ export default {
             })
         },
         saveContact:function(id){
-            var me = this;
-            var contactName = $("input[name='contactName']").val();
-            var contactPhone = $("input[name='contactPhone']").val();
-            var address = $("input[name='address']").val();
-            var numberProduct = $("input[name='numberProduct']").val();
-            var note = $("input[name='note']").val();
-            var status = $("#exampleFormControlSelect1").val();
-            $.ajax({
-                url: 'http://localhost:3000/api/contact/' + id,
-                methods: 'patch',
-                dataType: 'json',
-                data: {
-                    contactName: contactName,
-                    contactPhone: contactPhone,
-                    address: address,
-                    numberProduct,
-                    note: note,
-                    status: status
-                },
-                success: function (res) {
-                     $('#myModal').modal({
-                        show: 'false'
-                    });
-                    me.getListContact();
-                },
-                error: function(err) {
-                    console.log(err)
-                }
-            })
+            try{
+                var me = this;
+                var contactName = $("input[name='contactName']").val();
+                var contactPhone = $("input[name='contactPhone']").val();
+                var address = $("input[name='address']").val();
+                var numberProduct = $("input[name='numberProduct']").val();
+                var note = $("input[name='note']").val();
+                var status = $("#exampleFormControlSelect1").val();
+                $.ajax({
+                    url: 'http://localhost:3000/api/contact/update/' + id + '?contactName=' + contactName + '&contactPhone=' + contactPhone + '&address=' + address + '&numberProduct=' + numberProduct + '&note=' + note + '&status=' + status,
+                    methods: 'GET',
+                    dataType: 'json',
+                    data: {},
+                    success: function (res) {
+                        $('#myModal').modal('hidden');
+                        me.getListContact();
+                    },
+                    error: function(err) {
+                        console.log(err);
+                        $('#myModal').modal('hidden');
+                        me.getListContact();
+                    }
+                });
+            } catch (e) {
+                logMyErrors(e); // pass exception object to error handler
+            }
         }
     },
     created: function(){
@@ -289,6 +295,10 @@ export default {
 
 
 <style>
+#list-contact-screen {
+    font-size: medium;
+    line-height: revert;
+}
 .list-status-contact li {
     list-style: none;
     float: left;
