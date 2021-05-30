@@ -5,12 +5,11 @@
   <h2>CRM SMALL</h2>
   <div class="info" v-bind:class="good">
    <p>{{ alert.message }}</p>
-   <p v-show="login.login && login.password">{{ login.login}} / {{ login.password}}</p>
   </div>
   <span>Tài khoản:</span>
-  <input type="text" v-model="login.login" placeholder="Tài khoản" />
+  <input type="text" v-model="account.login" placeholder="Tài khoản" />
   <span>Mật khẩu:</span>
-  <input type="password" v-model="login.password" placeholder="Mật khẩu" />
+  <input type="password" v-model="account.password" placeholder="Mật khẩu" />
   <button v-on:click="onSubmit">Đăng nhập</button>
  </form>
 </section>
@@ -26,16 +25,12 @@ export default {
         alert: {
 			message: ""
 		},
-		login: {
+		account: {
 			login: "",
 			password: ""
 		},
 		shake: false,
-		good: "",
-		fake: {
-			login: "tienloi",
-			password: "123"
-		}
+		good: ""
     };
 	},
 	computed: {
@@ -49,14 +44,11 @@ export default {
 	},
 	methods: {
 		onSubmit: function(event) {
-			event.preventDefault();
-			this.shake = false;
-			window.location.href = "http://localhost:8082/";
-			setTimeout(function(){
-			
-			},3000)
-			console.log(this.shake)
-			
+			if(this.account.login == "bangdinh" && this.account.password == "bangdinh123"){
+				window.location.href = "http://localhost:8080/";
+			} else {
+				this.alert.message = "Đăng nhập thất bại, vui lòng đăng nhập lại.";
+			}
 		}
 	}
 }
@@ -69,9 +61,9 @@ export default {
 	height:100%;
 	margin:0px;
 	font-family: 'Work Sans', sans-serif;
-}
+} */
 
-body{
+/* body{
     background-image:url('https://img3.thuthuatphanmem.vn/uploads/2019/10/01/anh-background-phong-canh-dep_103234072.jpg');
     background-size: cover;
     display: flex;
