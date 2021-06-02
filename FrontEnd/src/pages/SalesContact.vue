@@ -52,11 +52,6 @@
                     <p style="font-size: 18px;"><b>{{data['da_huy']}}</b> <span>contact</span></p>
                 </div>
             </div>
-            <div class="row">
-               <pie-chart :data="chartData" :options="chartOptions" style="width: 500px;height: 500px;margin: 30px auto;"></pie-chart>
-               <h3 style="text-align: center;"><b>Biểu đồ báo cáo contact tổng các kho</b></h3>
-            </div>
-            
           </md-card-content>
         </md-card>
       </div>
@@ -65,11 +60,7 @@
 </template>
 
 <script>
-import PieChart from "./PieChart.js";
 export default {
-    components: {
-        PieChart
-    },
     props: {
         dataBackgroundColor: {
             type: String,
@@ -115,6 +106,7 @@ export default {
         var yyyy = today.getFullYear();
         today = yyyy + '-' + mm + '-' + dd;
         me.dateNow = today;
+        me.endDate = today;
         me.getSalesContact();
     }
 };

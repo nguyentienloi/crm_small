@@ -39,3 +39,18 @@ exports.findOne = async (req, res) => {
     const data = await Notification.count({ where: {reader: 0} });
     res.send({count: data});
 };
+
+exports.readAll = async (req, res) => {
+    const result = {};
+
+    const listData = await Notification.findAll();
+    listData.forEach(item => {
+        const id = item.id;
+        Notification.update({
+            reader: 1
+          }, {
+            where: { id: id }
+          });
+    });
+    res.send('success');
+};

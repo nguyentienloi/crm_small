@@ -5,8 +5,9 @@ module.exports = app => {
   
     // Retrieve all Tutorials
     router.get("/", notification.findAll);
-    // router.get("/:id", notification.findOne);
+    router.patch("/:id", notification.findOne);
     router.get("/countNoti", notification.findAllCount);
+    router.get("/readAll", notification.readAll);
 
     app.use('/api/notification', router);
   };

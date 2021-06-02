@@ -57,9 +57,10 @@
                       <p class="hidden-lg hidden-md">Notifications</p>
                     </md-button>
                     <ul class="dropdown-menu dropdown-menu-right" style="max-height: 300px; overflow: scroll;">
-                        <li v-for="(item, index) in allNoti" :key="index">
+                        <li v-for="(item, index) in allNoti" :key="index" v-bind:class="(item.reader == 0) ? 'gray' : ''">
                             <a @click="readNoti(item.id)">{{ item.content }}</a>
                         </li>
+                        <li><a style="float: right;" @click="readAll()">Đã xem--></a></li>
                     </ul>
                   </drop-down>
                 </div>
@@ -127,12 +128,30 @@ export default {
     },
     readNoti: function(id) {
         var me = this;
+        fetch('http://localhost:3000/api/notification/' + id, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            me.getCountNoti();
+            me.getAllNoti();
+        })
+        .catch((error) => {
+        });
+    },
+    readAll: function() {
         $.ajax({
-            url: 'http://localhost:3000/api/notification/ + id',
-            methods: 'get',
+            url: 'http://localhost:3000/api/notification/readAll',
+            methods: 'GET',
             dataType: 'json',
             data: {},
             success: function (res) {
+                this.getCountNoti();
+                this.getAllNoti();
             },
             error: function(err) {
                 console.log(err)
