@@ -23,6 +23,7 @@ db.Contact = require("./contact.model.js")(sequelize, Sequelize);
 db.contactStatus = require("./contactStatus.model.js")(sequelize, Sequelize);
 db.Notification = require("./notification.model")(sequelize, Sequelize);
 db.TokenFirebase = require("./tokenFirebase.model")(sequelize, Sequelize);
+db.KhoContact = require("./khoContact.model")(sequelize, Sequelize);
 
 //Relations
 // db.contactStatus.hasMany(db.Contact, {

@@ -53,13 +53,13 @@ exports.findOne = async (req, res) => {
 
 exports.update = async (req, res) => {
   const id = req.params.id;
-  const contactName = req.query.contactName;
-  const contactPhone = req.query.contactPhone;
-  const address = req.query.address;
-  const numberProduct = req.query.numberProduct;
-  const note = req.query.note;
-  const status = req.query.status;
-  
+  const data = req.body.data;
+  const contactName = data.contactName;
+  const contactPhone = data.contactPhone;
+  const address = data.address;
+  const numberProduct = data.numberProduct;
+  const note = data.note;
+  const status = data.status;
   const updateContact = await Contact.update({
     contactName: contactName,
     contactPhone: contactPhone,

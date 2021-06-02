@@ -56,60 +56,7 @@
                <pie-chart :data="chartData" :options="chartOptions" style="width: 500px;height: 500px;margin: 30px auto;"></pie-chart>
                <h3 style="text-align: center;"><b>Biểu đồ báo cáo contact tổng các kho</b></h3>
             </div>
-            <div class="row">
-                <h2 style="margin-left: 16px;">Kho A</h2>
-                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
-                    <h2>
-                        Tổng:
-                    </h2>
-                    <p style="font-size: 18px;"><b>{{data['moi']}}</b> <span>contact</span></p>
-                </div>
-                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
-                    <h2>
-                        Đã gọi:
-                    </h2>
-                    <p style="font-size: 18px;"><b>{{data['da_goi']}}</b> <span>contact</span></p>
-                </div>
-                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
-                    <h2>
-                        Chờ gọi lại:
-                    </h2>
-                    <p style="font-size: 18px;"><b>{{data['cho_goi_lai']}}</b> <span>contact</span></p>
-                </div>
-                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
-                    <h2>
-                        Đã huỷ:
-                    </h2>
-                    <p style="font-size: 18px;"><b>{{data['da_huy']}}</b> <span>contact</span></p>
-                </div>
-            </div>
-            <div class="row">
-                <h2 style="margin-left: 16px;">Kho B</h2>
-                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
-                    <h2>
-                        Tổng:
-                    </h2>
-                    <p style="font-size: 18px;"><b>{{data['moi']}}</b> <span>contact</span></p>
-                </div>
-                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
-                    <h2>
-                        Đã gọi:
-                    </h2>
-                    <p style="font-size: 18px;"><b>{{data['da_goi']}}</b> <span>contact</span></p>
-                </div>
-                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
-                    <h2>
-                        Chờ gọi lại:
-                    </h2>
-                    <p style="font-size: 18px;"><b>{{data['cho_goi_lai']}}</b> <span>contact</span></p>
-                </div>
-                <div class="col-md-3" style="padding: 10px; border: 1px solid black; border-radius: 12px; width: 23%; margin-left: 12px;">
-                    <h2>
-                        Đã huỷ:
-                    </h2>
-                    <p style="font-size: 18px;"><b>{{data['da_huy']}}</b> <span>contact</span></p>
-                </div>
-            </div>
+            
           </md-card-content>
         </md-card>
       </div>
@@ -134,42 +81,13 @@ export default {
             dateNow: '',
             startDate: '',
             endDate: '',
-            data:[
-                // {
-                //     "moi": 172
-                // },
-                // {
-                //     "da_goi": 125
-                // },
-                // {
-                //     "da_huy": 35
-                // },
-                // {
-                //     "cho_goi_lai": 12
-                // },
-                // {
-                //     "da_tao_don": 235
-                // }
-            ],
-            chartOptions: {
-                hoverBorderWidth: 20
-            },
-            chartData: {
-                hoverBackgroundColor: "red",
-                hoverBorderWidth: 10,
-                labels: ["Đã gọi", "Đã huỷ", "Chờ gọi lại"],
-                datasets: [
-                    {
-                        label: "Data One",
-                        backgroundColor: ["#41B883", "#E46651", "#d3f70bdb"],
-                        data: []
-                    }
-                ]
-            }
+            data:[],
+            data1:[],
+            data2:[],
         }
     },
     methods: {
-        getSalesContact: function() {
+        getSalesContact: function(khoId) {
             var me = this;
             const startDate = $('.startDate').val();
             const endDate = $('.endDate').val();
@@ -182,16 +100,12 @@ export default {
                 data: {},
                 success: function (res) {
                     me.data = res;
-                    // me.chartData.datasets[0].data = [];
-                    me.chartData.datasets[0].data.push(res['da_goi']);
-                    me.chartData.datasets[0].data.push(res['da_huy']);
-                    me.chartData.datasets[0].data.push(res['cho_goi_lai']);
                 },
                 error: function(err) {
                     console.log(err)
                 }
             })
-        }
+        },
     },
     created: function(){
         var me = this;
@@ -202,7 +116,6 @@ export default {
         today = yyyy + '-' + mm + '-' + dd;
         me.dateNow = today;
         me.getSalesContact();
-        me.chartData.datasets[0].data = [135,12,4];
     }
 };
 </script>

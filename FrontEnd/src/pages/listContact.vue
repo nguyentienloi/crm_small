@@ -1,25 +1,23 @@
 <template>
   <div class="content" id="list-contact-screen" v-cloak>
     <div class="row menu-list-contact">
-      <div class="col-md-4">
-        <form style="padding: 0px !important; height:65px;">
-          <div class="input-group">
-            <div class="form-outline">
-              <input id="search-input" type="search" class="form-control" placeholder="Tìm kiếm theo SDT..." style="width:300px;" />
-            </div>
-            <button id="search-button" type="button" class="btn btn-primary" v-on:click="filterContact()">
-              Tìm kiếm
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="dropdown col-md-4">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ kho[0].name }}
-        <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-          <li v-for="(item, index) in kho" :key="index" v-bind:value="item.id"><a>{{ item.name }}</a></li>
-        </ul>
-      </div>
+        <div class="dropdown col-md-1">
+            <select class="form-control" id="exampleFormControlSelect1" v-model="khoId" style="margin-top:12px;">
+                <option v-for="(khoID, index) in kho" :key="index" v-bind:value="khoID.id">{{khoID.name}}</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <form style="padding: 0px !important; height:65px;">
+                <div class="input-group">
+                    <div class="form-outline">
+                        <input id="search-input" type="search" class="form-control" placeholder="Tìm kiếm theo SDT..." style="width:300px;" />
+                    </div>
+                    <button id="search-button" type="button" class="btn btn-primary" v-on:click="filterContact()" style="background-color: #4caf50 !important;">
+                    Tìm kiếm
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
     <ul class="list-status-contact">
         <li v-for="(status, index) in listContactStatus" :key="index" v-bind:value="status.id" v-bind:style="{backgroundColor:status.color}" v-on:click="filterContactByStatus(status.id)">{{ status.name + ' (' + status.count + ')' }}</li>
@@ -74,27 +72,25 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h2 class="modal-title">Thông tin khách hàng</h2>
+          <h2 class="modal-title" style="color: black; text-align: center;">Thông tin khách hàng</h2>
         </div>
         <div class="modal-body">
-            <form>
-                <label for="email"><b>Họ tên:</b></label>
-                <input type="text" name="contactName" v-model="contactDetail.contactName" required style="background: white; border: 1px solid black; border-radius: 7px;">
-                <label for="email"><b>Số điện thoại:</b></label>
-                <input type="text" name="contactPhone" v-model="contactDetail.contactPhone" required style="background: white; border: 1px solid black; border-radius: 7px;">
-                <label for="email"><b>Địa chỉ liên hệ:</b></label>
-                <input type="text" name="address" required v-model="contactDetail.address" style="background: white; border: 1px solid black; border-radius: 7px;">
-                <label for="email"><b>Link mua hàng:</b> <a v-bind:href="contactDetail.linkUrl" target="_blank">{{contactDetail.linkUrl}}</a></label>
-                <label for="email"><b>Số lượng mua:</b></label>
-                <input type="number" min="0" name="numberProduct" required v-model="contactDetail.numberProduct" style="background: white; border: 1px solid black; border-radius: 7px;">
-                <label for="email"><b>Ghi chú:</b></label>
-                <input type="text" name="note" v-model="contactDetail.note" style="background: white; border: 1px solid black; border-radius: 7px;">
-                <label for="email"><b>Trạng thái:</b></label>
+                <label class="label-120"><b>Họ tên:</b></label>
+                <input type="text" name="contactName" v-model="contactDetail.contactName" style="background: white; border: 1px solid black; border-radius: 7px;width:430px;"><br/>
+                <label class="label-120"><b>Số điện thoại:</b></label>
+                <input type="text" name="contactPhone" v-model="contactDetail.contactPhone" style="background: white; border: 1px solid black; border-radius: 7px;width:430px;"><br/>
+                <label class="label-120"><b>Địa chỉ liên hệ:</b></label>
+                <input type="text" name="address" v-model="contactDetail.address" style="background: white; border: 1px solid black; border-radius: 7px;width:430px;"><br/>
+                <label class=""><b>Link mua hàng:</b> <a v-bind:href="contactDetail.linkUrl" target="_blank">{{contactDetail.linkUrl}}</a></label><br/>
+                <label class="label-120"><b>Số lượng mua:</b></label>
+                <input type="number" min="0" name="numberProduct" v-model="contactDetail.numberProduct" style="background: white; border: 1px solid black; border-radius: 7px;width:430px;"><br/>
+                <label class="label-120"><b>Ghi chú:</b></label>
+                <input type="text" name="note" v-model="contactDetail.note" style="background: white; border: 1px solid black; border-radius: 7px;width:430px;"><br/>
+                <label class="label-120"><b>Trạng thái:</b></label>
                 <select class="form-control" id="exampleFormControlSelect1" v-model="contactDetail.statusId">
                     <option v-for="(status, index) in listContactStatus" :key="index" v-bind:value="status.id" >{{status.name}}</option>
                 </select>
                 <button class="btn btn-success" name="sendSubmit" @click="saveContact(contactDetail.id)" style="margin-top:20px;">Lưu</button>&nbsp;
-            </form>
         </div>
         <div class="modal-footer">
         </div>
@@ -109,28 +105,11 @@
 export default {
     data: function() {
         return {
-            kho : [
-                {
-                    id: 1,
-                    name: "Kho quần áo"
-                },
-                {
-                    id: 2,
-                    name: "Kho phụ kiện"
-                },
-                {
-                    id: 1,
-                    name: "Kho đồ gia dụng"
-                },
-                {
-                    id: 1,
-                    name: "Kho điện tử"
-                }
-            ],
+            kho : [],
             listContactStatus: [],
             listContact: [],
             phone: '',
-            khoiId: '',
+            khoId: 1,
             contactStatus:'',
             totalContact: '',
             page: 0,
@@ -154,7 +133,7 @@ export default {
                         url: 'http://localhost:3000/api/contactStatus/count',
                         methods: 'GET',
                         dataType: 'json',
-                        data: {},
+                        data: {khoId: me.khoId},
                         success: function (r) {
                             res[0]['count'] = r['moi'];
                             res[1]['count'] = r['da_goi'];
@@ -206,6 +185,10 @@ export default {
             var key = $('#search-input').val();
             me.phone = key;
             this.getListContact();
+            me.totalContact = '';
+            me.totalPage = '';
+            me.pages = [];
+            this.getStatusContact();
         },
         filterContactByStatus:function(statusId){
             var me = this;
@@ -258,27 +241,50 @@ export default {
             })
         },
         saveContact:function(id){
+            var me = this;
+            var contactName = $("input[name='contactName']").val();
+            var contactPhone = $("input[name='contactPhone']").val();
+            var address = $("input[name='address']").val();
+            var numberProduct = $("input[name='numberProduct']").val();
+            var note = $("input[name='note']").val();
+            var status = me.contactDetail.statusId;
+            const data = {
+                contactName: contactName,
+                contactPhone: contactPhone,
+                address: address,
+                numberProduct: numberProduct,
+                note: note,
+                status: status
+            };
+            fetch('http://localhost:3000/api/contact/update/' + id, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({data: data}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.href = '/';
+                $('#myModal').modal('hidden');
+                me.getListContact();
+            })
+            .catch((error) => {
+            });
+        },
+        getKhoContact:function(){
             try{
                 var me = this;
-                var contactName = $("input[name='contactName']").val();
-                var contactPhone = $("input[name='contactPhone']").val();
-                var address = $("input[name='address']").val();
-                var numberProduct = $("input[name='numberProduct']").val();
-                var note = $("input[name='note']").val();
-                var status = $("#exampleFormControlSelect1").val();
                 $.ajax({
-                    url: 'http://localhost:3000/api/contact/update/' + id + '?contactName=' + contactName + '&contactPhone=' + contactPhone + '&address=' + address + '&numberProduct=' + numberProduct + '&note=' + note + '&status=' + status,
+                    url: 'http://localhost:3000/api/khoContact/',
                     methods: 'GET',
                     dataType: 'json',
                     data: {},
                     success: function (res) {
-                        $('#myModal').modal('hidden');
-                        me.getListContact();
+                    me.kho = res;
                     },
                     error: function(err) {
                         console.log(err);
-                        $('#myModal').modal('hidden');
-                        me.getListContact();
                     }
                 });
             } catch (e) {
@@ -289,6 +295,7 @@ export default {
     created: function(){
         this.getStatusContact();
         this.getListContact();
+        this.getKhoContact();
     }
 }
 </script>
@@ -306,5 +313,8 @@ export default {
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 1px;
+}
+.label-120 {
+    width:120px;
 }
 </style>

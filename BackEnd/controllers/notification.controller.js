@@ -7,7 +7,7 @@ exports.findAll = async (req, res) => {
     const result = {};
     Notification.findAll({
       order: [
-        ['createdAt', 'ASC']
+        ['createdAt', 'DESC']
       ]
     })
       .then(data => {

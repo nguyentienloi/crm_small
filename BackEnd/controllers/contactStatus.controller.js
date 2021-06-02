@@ -18,16 +18,17 @@ exports.findAll = async (req, res) => {
 };
 
 exports.findAllCount = async (req, res) => {
+    const khoId = req.query.khoId;
     const data = {};
-    const contact1 = await contact.count({ where: {statusId: 1} });
+    const contact1 = await contact.count({ where: {statusId: 1, khoId: khoId} });
     data['moi'] = contact1;
-    const contact2 = await contact.count({ where: {statusId: 2} });
+    const contact2 = await contact.count({ where: {statusId: 2, khoId: khoId} });
     data['da_goi'] = contact2;
-    const contact3 = await contact.count({ where: {statusId: 3} });
+    const contact3 = await contact.count({ where: {statusId: 3, khoId: khoId} });
     data['da_huy'] = contact3;
-    const contact4 = await contact.count({ where: {statusId: 4} });
+    const contact4 = await contact.count({ where: {statusId: 4, khoId: khoId} });
     data['cho_goi_lai'] = contact4;
-    const contact5 = await contact.count({ where: {statusId: 5} });
+    const contact5 = await contact.count({ where: {statusId: 5, khoId: khoId} });
     data['da_tao_don'] = contact5;
     res.send(data);
 };
@@ -38,7 +39,7 @@ exports.countConcatByStatus = async (req, res) => {
     const data = {};
     const contact1 = await contact.count({
         where: {
-            statusId: 1, 
+            statusId: 1,
             createdAt: {
                 [Op.between] : [startDate, endDate]
             }
@@ -47,7 +48,7 @@ exports.countConcatByStatus = async (req, res) => {
     data['moi'] = contact1;
     const contact2 = await contact.count({
         where: {
-            statusId: 2, 
+            statusId: 2,
             createdAt: {
                 [Op.between] : [startDate, endDate]
             }
@@ -56,7 +57,7 @@ exports.countConcatByStatus = async (req, res) => {
     data['da_goi'] = contact2;
     const contact3 = await contact.count({
         where: {
-            statusId: 3, 
+            statusId: 3,
             createdAt: {
                 [Op.between] : [startDate, endDate]
             }
@@ -65,7 +66,7 @@ exports.countConcatByStatus = async (req, res) => {
     data['da_huy'] = contact3;
     const contact4 = await contact.count({
         where: {
-            statusId: 4, 
+            statusId: 4,
             createdAt: {
                 [Op.between] : [startDate, endDate]
             }
@@ -74,7 +75,7 @@ exports.countConcatByStatus = async (req, res) => {
     data['cho_goi_lai'] = contact4;
     const contact5 = await contact.count({
         where: {
-            statusId: 5, 
+            statusId: 5,
             createdAt: {
                 [Op.between] : [startDate, endDate]
             }

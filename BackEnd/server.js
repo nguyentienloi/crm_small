@@ -22,10 +22,12 @@ require("./routes/contact.routes")(app);
 require("./routes/contactStatus.routes")(app);
 require("./routes/notification.routes")(app);
 require("./routes/tokenFirebase.routes")(app);
+require("./routes/khoContact.routes")(app);
 
 //cronjob insert data contact
-const { asyncContact } = require('./controllers/syncContact');
-cron.schedule("0 */1 * * * *", asyncContact);
+// const { asyncContactKho1, asyncContactKho2} = require('./controllers/syncContact');
+// cron.schedule("0 */1 * * * *", asyncContactKho1);
+// cron.schedule("0 */1 * * * *", asyncContactKho2);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;
