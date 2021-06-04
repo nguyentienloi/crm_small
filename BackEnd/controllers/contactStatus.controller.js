@@ -36,13 +36,30 @@ exports.findAllCount = async (req, res) => {
 exports.countConcatByStatus = async (req, res) => {
     const startDate = req.query.startDate;
     const endDate = req.query.endDate;
+    const khoId = req.query.khoId;
+    if (khoId == 0) {
+        var kho = {
+            [Op.in] : [1,2]
+        }
+    }
+    if (khoId == 1) {
+        var kho = {
+            [Op.in] : [1]
+        }
+    }
+    if (khoId == 2) {
+        var kho = {
+            [Op.in] : [2]
+        }
+    }
     const data = {};
     const contact1 = await contact.count({
         where: {
             statusId: 1,
             createdAt: {
                 [Op.between] : [startDate, endDate]
-            }
+            },
+            khoId: kho
         } 
     });
     data['moi'] = contact1;
@@ -51,7 +68,8 @@ exports.countConcatByStatus = async (req, res) => {
             statusId: 2,
             createdAt: {
                 [Op.between] : [startDate, endDate]
-            }
+            },
+            khoId: kho
         } 
     });
     data['da_goi'] = contact2;
@@ -60,7 +78,8 @@ exports.countConcatByStatus = async (req, res) => {
             statusId: 3,
             createdAt: {
                 [Op.between] : [startDate, endDate]
-            }
+            },
+            khoId: kho
         } 
     });
     data['da_huy'] = contact3;
@@ -69,7 +88,8 @@ exports.countConcatByStatus = async (req, res) => {
             statusId: 4,
             createdAt: {
                 [Op.between] : [startDate, endDate]
-            }
+            },
+            khoId: kho
         } 
     });
     data['cho_goi_lai'] = contact4;
@@ -78,7 +98,8 @@ exports.countConcatByStatus = async (req, res) => {
             statusId: 5,
             createdAt: {
                 [Op.between] : [startDate, endDate]
-            }
+            },
+            khoId: kho
         } 
     });
     data['da_tao_don'] = contact5;

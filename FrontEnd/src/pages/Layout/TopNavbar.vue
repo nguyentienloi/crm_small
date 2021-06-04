@@ -60,7 +60,7 @@
                         <li v-for="(item, index) in allNoti" :key="index" v-bind:class="(item.reader == 0) ? 'gray' : ''">
                             <a @click="readNoti(item.id)">{{ item.content }}</a>
                         </li>
-                        <li><a style="float: right;" @click="readAll()">Đã xem--></a></li>
+                        <li><a style="float: right;" @click="readAll()">Đã xem</a></li>
                     </ul>
                   </drop-down>
                 </div>

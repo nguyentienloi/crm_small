@@ -11,18 +11,10 @@
         <md-icon>dashboard</md-icon>
         <p>Danh sách contact</p>
       </sidebar-link>
-      <!-- <sidebar-link to="/order/list">
-        <md-icon>content_paste</md-icon>
-        <p>Danh sách order</p>
-      </sidebar-link> -->
       <sidebar-link to="/salesReport">
         <md-icon>library_books</md-icon>
         <p>Báo cáo contact</p>
       </sidebar-link>
-      <!-- <sidebar-link to="/user">
-        <md-icon>person</md-icon>
-        <p>Tài khoản</p>
-      </sidebar-link> -->
     </side-bar>
 
     <div class="main-panel">

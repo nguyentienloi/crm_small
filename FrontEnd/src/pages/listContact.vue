@@ -46,7 +46,7 @@
             <p v-if="listContact.length == 0" class="text-center">Không tìm thấy dữ liệu.</p>
             </tbody>
         </table>
-        <nav aria-label="Page navigation example" style="text-align: center;">
+        <nav v-if="totalPage" aria-label="Page navigation example" style="text-align: center;">
             <ul class="pagination">
                 <li class="page-item">
                 <a class="page-link" v-on:click="getContactByPagination('pre')" aria-label="Previous">
@@ -62,6 +62,7 @@
                 </a>
                 </li>
             </ul>
+            <span v-if="totalContact" style="float: right; margin-top: 23px;">Tổng {{ totalContact }} kết quả</span>
         </nav>
     </div>
       <!-- Modal -->
@@ -140,12 +141,7 @@ export default {
                             res[2]['count'] = r['da_huy'];
                             res[3]['count'] = r['cho_goi_lai'];
                             res[4]['count'] = r['da_tao_don'];
-                            me.totalContact = r['moi'] + r['da_goi'] + r['da_huy'] + r['cho_goi_lai'] + r['da_tao_don'];
-                            const totalPage = Math.ceil(parseInt(me.totalContact) / parseInt(me.limit));
-                            me.totalPage = totalPage;
-                            for(var i = 1; i <= totalPage; i ++) {
-                                me.pages.push(i);
-                            }
+                           
                             me.listContactStatus = res;
                         },
                         error: function(err) {
@@ -173,7 +169,14 @@ export default {
                     page: me.page
                 },
                 success: function (res) {
-                    me.listContact = res;
+                    me.pages = [];
+                    me.listContact = res['data'];
+                    me.totalContact = res['count'];
+                    const totalPage = Math.ceil(parseInt(me.totalContact) / parseInt(me.limit));
+                    me.totalPage = totalPage;
+                    for(var i = 1; i <= totalPage; i ++) {
+                        me.pages.push(i);
+                    }
                 },
                 error: function(err) {
                     console.log(err)
@@ -196,6 +199,7 @@ export default {
             var key = $('#search-input').val();
             me.phone = key;
             me.page = 0;
+            me.totalContact = 0;
             this.getListContact();
         },
         getContactByPaginate: function(page) {
@@ -293,9 +297,14 @@ export default {
         }
     },
     created: function(){
-        this.getStatusContact();
-        this.getListContact();
-        this.getKhoContact();
+        const token = localStorage.getItem('token_user');
+        if (token) {
+            this.getStatusContact();
+            this.getListContact();
+            this.getKhoContact();
+        } else {
+            this.$router.push({ name: 'login' });
+        }
     }
 }
 </script>

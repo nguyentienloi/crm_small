@@ -1,17 +1,19 @@
 <template>
 <div class="container-fluid body_login">
-<section id="login" v-bind:class="isShake">
- <form>
-  <h2>CRM SMALL</h2>
-  <div class="info" v-bind:class="good">
-   <p>{{ alert.message }}</p>
-  </div>
-  <span>Tài khoản:</span>
-  <input type="text" v-model="account.login" placeholder="Tài khoản" />
-  <span>Mật khẩu:</span>
-  <input type="password" v-model="account.password" placeholder="Mật khẩu" />
-  <button v-on:click="onSubmit">Đăng nhập</button>
- </form>
+<section id="login" v-bind:class="isShake" style="margin-top:10%;">
+<div>
+	<form>
+		<h2>CRM SMALL</h2>
+		<div class="info" v-bind:class="good">
+			<p>{{ alert.message }}</p>
+		</div>
+		<span>Tài khoản:</span>
+		<input type="text" v-model="account.login" placeholder="Tài khoản" />
+		<span>Mật khẩu:</span>
+		<input type="password" v-model="account.password" placeholder="Mật khẩu" />
+		<button v-on:click="onSubmit">Đăng nhập</button>
+	</form>
+</div>
 </section>
 </div>
 </template>
@@ -44,8 +46,10 @@ export default {
 	},
 	methods: {
 		onSubmit: function(event) {
-			if(this.account.login == "bangdinh" && this.account.password == "bangdinh123"){
-				window.location.href = "http://localhost:8080/";
+			if(this.account.login == "123" && this.account.password == "123"){
+				localStorage.setItem('token_user', 'jrP3DgFuYGhy8MD3a25Q0SpfjxGAhCYXFysz2u6B');
+				setTimeout(function(){localStorage.removeItem('token_user');}, 9 * 120 * 1000);
+				this.$router.push({ name: 'listContact' });
 			} else {
 				this.alert.message = "Đăng nhập thất bại, vui lòng đăng nhập lại.";
 			}

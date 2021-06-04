@@ -7,7 +7,7 @@ exports.findAll = async (req, res) => {
     const phone = req.query.phone;
     const khoId = req.query.khoId;
     const contactStatus = req.query.contactStatus;
-    const limit = (req.query.limit) ? parseInt(req.query.limit) : 10;
+    const limit = (req.query.limit) ? parseInt(req.query.limit) : 15;
     const page =(req.query.page) ? parseInt(req.query.page) : 0;;
     const startContact = (page * limit);
     const condition = {};
@@ -38,7 +38,11 @@ exports.findAll = async (req, res) => {
         }
       }
     }
-    res.send(listContact);
+    const countContact = await Contact.findAll({ where: condition});
+    res.send({
+      "data" :listContact,
+      "count": countContact.length
+    });
 };
 
 exports.findOne = async (req, res) => {
